@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-
+# Run this before execute: sudo pigpiod
 import sys
 import serial
 import pigpio
@@ -7,7 +7,6 @@ import time
 import threading
 import RPi.GPIO as GPIO
 from smbus2 import SMBus, i2c_msg
-
 
 if sys.version_info.major == 2:
     print('Please run this program with python3!')
@@ -33,12 +32,11 @@ steering_servo_turn_time = 100  # target angle time
 
 start = True
 pin = 12 # The io port of the front steering wheel
-
 pi = pigpio.pi()
-pi.set_PWM_range(pin, 20000)# 5 is the IO port to output PWM, 20000 sets the PWM adjustment range,
-                            # The control signal of our servo is 50Hz, which is a cycle of 20ms. That�s 20,000us.
+pi.set_PWM_range(pin, 20000)# 12 is the IO port to output PWM, 20000 sets the PWM adjustment range,
+                            # The control signal of our servo is 50Hz, which is a cycle of 20ms. Thats 20,000us.
                             # Set to 20000, which means the minimum adjustment is 1us
-pi.set_PWM_frequency(pin, 50) # Set the frequency of PWM, 5 is the IO port to be set, 50 is the frequency
+pi.set_PWM_frequency(pin, 50) # Set the frequency of PWM, 12 is the IO port to be set, 50 is the frequency
 pi.set_PWM_dutycycle(pin, 1500)
 
 def servo_angle(dc):
@@ -61,39 +59,38 @@ def motors():
         # steering_servor_angle = Indicates the angle to which the servo rotates
         if mode == 'go':
             car_speed = car_speed_move
-            steering_servo_angle_pulse = 1500
+            steering_servo_angle_pulse = 1000
 
         elif mode == 'back':
             car_speed = -car_speed_move
-            steering_servo_angle_pulse = 1500
+            steering_servo_angle_pulse = 1100
 
         elif mode == 'turn_left':
             car_speed = car_speed_move
-            steering_servo_angle_pulse = 1000
+            steering_servo_angle_pulse = 1200
 
         elif mode == 'left_back':
             car_speed = -car_speed_move
-            steering_servo_angle_pulse = 1000
+            steering_servo_angle_pulse = 1300
 
         elif mode == 'turn_right':
             car_speed = car_speed_move
-            steering_servo_angle_pulse = 2000
+            steering_servo_angle_pulse = 1400
 
         elif mode == 'right_back':
             car_speed = -car_speed_move
-            steering_servo_angle_pulse = 2000
+            steering_servo_angle_pulse = 1500
 
         elif mode == 'stop':
             car_speed = 0
-            steering_servo_angle_pulse = 1500
+            steering_servo_angle_pulse = 1600
         else:
             print('wait the message')
         
         print("Currently running mode:",mode)
         servo_angle(steering_servo_angle_pulse)
-        time.sleep(3)
+        time.sleep(2.5)
         i += 1
-
 
 
 def aimodel():
