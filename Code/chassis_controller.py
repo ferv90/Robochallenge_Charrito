@@ -94,30 +94,24 @@ def motors():
         time.sleep(3)
         i += 1
 
-            # Limpia los pines GPIO al finalizar GPIO.cleanup()
-            # Aqu� puedes escribir la l�gica para controlar los motores
-            # Por ejemplo, hacer girar los motores hacia adelante o hacia atr�s
-            # Puedes usar los m�todos GPIO.output() para controlar los pines GPIO
 
 
 def aimodel():
     print(f'{threading.current_thread().name} {threading.get_native_id()}')
         # while True:
-        # Aqu� puedes escribir la l�gica para ejecutar tu modelo de IA
-        # Por ejemplo, cargar el modelo y hacer predicciones
-        # Aseg�rate de manejar cualquier entrada o salida necesaria del modelo
+        # AI main routine implementation
 
 if __name__ == "__main__":
     format = "%(asctime)s: %(message)s"
     thread_motors = threading.Thread(target=motors)
     thread_aimodel = threading.Thread(target=aimodel)
 
-    # Inicia los hilos
+    # Start threads
     thread_motors.start()
     thread_aimodel.start()
 
 
-    # Espera a que los hilos terminen (esto no suceder� en este ejemplo, ya que los hilos se ejecutan en bucles infinitos)
+    # Wait for thread ends
     thread_motors.join()
     thread_aimodel.join()
 
