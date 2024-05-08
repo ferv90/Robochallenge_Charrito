@@ -74,20 +74,23 @@ def getHistogram(img, display, minPer, region):
     else:
         histValues = np.sum(img[img.shape[0] // region:, :], axis=0)
  
-    # print(histValues)
+    # print('HistValues:', histValues)
     maxValue = np.max(histValues)
     minValue = minPer*maxValue
  
-    indexArray = np.where(histValues >= minValue)
-    basePoint = int(np.average(indexArray))
-    # print(basePoint)
+    indexArray = np.where(histValues >= minValue)   # Get all indices with Min value or above
+    basePoint = int(np.average(indexArray))         # Average all max indices values
+    # print('basepoint', basePoint)
  
     if display:
         imgHist = np.zeros((img.shape[0], img.shape[1], 3), np.uint8)
         for x, intensity in enumerate(histValues):
-            # cv2.line(imgHist, (x, img.shape[0]), (x, img.shape[0]-intensity // 255 // region), (255, 0, 255), 1)
-            cv2.circle(imgHist, (basePoint, img.shape[0]), 20, (0,255,255), cv2.FILLED)
-        return basePoint,imgHist
+            # print('intensity', intensity)
+            if intensity > minValue: color = (255, 0, 255)
+            else: color = (0, 0, 255)
+            cv2.line(imgHist, (x, img.shape[0]), (x, img.shape[0]-(intensity // 255 // region)), color, 1)
+            cv2.circle(imgHist, (basePoint, img.shape[0]), 20, (0, 255, 255), cv2.FILLED)
+        return basePoint, imgHist
     else:
         return basePoint
 
