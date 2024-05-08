@@ -1,21 +1,23 @@
 import cv2
+import utils
 import numpy as np
 
 # This is a simple color picker script that will help us find the HSV values for the track. 
 # We can use this to find the range of values for the black/white lane colors used on utils Threshold().
+# Run separate it
 
-frameWidth = 640
-frameHeight = 480
-cap = cv2.VideoCapture(1)   # change to video recorded
-cap.set(3, frameWidth)
-cap.set(4, frameHeight)
- 
+# Uncomment to Live recording/transmission
+# frameWidth = 640
+# frameHeight = 480
+# cap = cv2.VideoCapture(1)   # change to video recorded
+# cap.set(3, frameWidth)
+# cap.set(4, frameHeight) 
  
 def empty(a):
     pass
  
 cv2.namedWindow("HSV")
-cv2.resizeWindow("HSV", 640, 240)
+cv2.resizeWindow("HSV", 640, 238)
 cv2.createTrackbar("HUE Min", "HSV", 0, 179, empty)
 cv2.createTrackbar("HUE Max", "HSV", 179, 179, empty)
 cv2.createTrackbar("SAT Min", "HSV", 0, 255, empty)
@@ -23,7 +25,8 @@ cv2.createTrackbar("SAT Max", "HSV", 255, 255, empty)
 cv2.createTrackbar("VALUE Min", "HSV", 0, 255, empty)
 cv2.createTrackbar("VALUE Max", "HSV", 255, 255, empty)
  
-cap = cv2.VideoCapture('vid1.mp4')
+cap = cv2.VideoCapture('C:/Users/10753308/Robochallenge_Charrito/Code/RobotMainEnv/Vid1.mp4')
+
 frameCounter = 0
  
 while True:
@@ -33,6 +36,7 @@ while True:
         frameCounter = 0
  
     _, img = cap.read()
+    img = cv2.resize(img, (utils.WIDHT_SCREEN_SIZE, utils.HEIGHT_SCREEN_SIZE))
     imgHsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
  
     h_min = cv2.getTrackbarPos("HUE Min", "HSV")
