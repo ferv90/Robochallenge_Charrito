@@ -74,10 +74,10 @@ def getLaneCurve(img, display) :
        cv2.imshow('cvImageStack',imgStacked)
     
     elif display == 1:
-       cv2.imshow('cvOrig', imgCopy)
-       cv2.imshow('cvWarp', imgWarp)
-       cv2.imshow('cvCanny', imgCanny)
-       cv2.imshow('cvResult',imgResult)
+        cv2.imshow('cvOrig', imgCopy)
+        cv2.imshow('cvWarp', imgWarp)
+        cv2.imshow('cvCanny', imgCanny)
+        cv2.imshow('cvResult',imgResult)
         # cv2.imshow('cvThres', imgThres)
         # cv2.imshow('cvInvert', imgInvert)
         # cv2.imshow('cvBlur', imgBlur)
@@ -95,6 +95,9 @@ if __name__ == '__main__' :
     print('OpenCV version: ', cv2.__version__)
     # pathfile = pathlib.Path(__file__).parent.resolve()
     # print(pathfile)
+    # RPi 5 Env:
+    # cap = cv2.imread('/home/quique/Robochallenge_Charrito/Code/RobotMainEnv/devOps_diagram.jpeg', cv2.IMREAD_GRAYSCALE)
+    # Windows Env:
     # img2 = cv2.imread('C:/Users/10753308/Robochallenge_Charrito/Code/RobotMainEnv/devOps_diagram.jpeg')
     cap = cv2.VideoCapture('C:/Users/10753308/Robochallenge_Charrito/Code/RobotMainEnv/Vid1.mp4') #Windows requires complete filepath
     initialTrackBarValues = [0, 360, 165, 44]   # 0, 360, 110, 90 [wT, hT, wB, hB]
@@ -111,5 +114,8 @@ if __name__ == '__main__' :
         # cv2.imshow('VidOriginal', img)
         curve = getLaneCurve(img, display=2)       # display=0 none, 1=separate windows, 2=all in one window 
         print('curve val:', curve)
-        cv2.waitKey(1)
+        if cv2.waitKey(1) == ord('q'):
+            break
+    cap.release()
+    cv2.destroyAllWindows()
 

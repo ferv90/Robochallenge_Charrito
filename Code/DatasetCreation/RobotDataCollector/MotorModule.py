@@ -6,44 +6,43 @@
 #  move(speed,turn,delay)
 # -Speed and turn range from -1 to 1
 # -Delay is in seconds.
+############################################################################################################
+#
+#  THIS MODULE WILL WORKING ON RASPBERRY PI 5 ONLY
+#
+############################################################################################################
 
-import RPi.GPIO as GPIO
+#import RPi.GPIO as GPIO
+from gpiozero import Motor, AngularServo
 from time import sleep
-GPIO.setmode(GPIO.BCM)
-GPIO.setwarnings(False)
 
 
 class Motor():
-    def __init__(self,EnaA,In1A,In2A,EnaB,In1B,In2B):
-        self.EnaA= EnaA
-        self.In1A = In1A
-        self.In2A = In2A
-        self.EnaB= EnaB
-        self.In1B = In1B
-        self.In2B = In2B
-        GPIO.setup(self.EnaA,GPIO.OUT);GPIO.setup(self.In1A,GPIO.OUT);GPIO.setup(self.In2A,GPIO.OUT)
-        GPIO.setup(self.EnaB,GPIO.OUT);GPIO.setup(self.In1B,GPIO.OUT);GPIO.setup(self.In2B,GPIO.OUT)
-        self.pwmA = GPIO.PWM(self.EnaA, 100);
-        self.pwmB = GPIO.PWM(self.EnaB, 100);
-        self.pwmA.start(0);
-        self.pwmB.start(0);
-        self.mySpeed=0
+    def __init__():
+        servoSteering = AngularServo(12, min_angle=-90, max_angle=90)
+        motorLeft = Motor(forward=4, backward=14)
+        motorRight = Motor(forward=17, backward=18)
+        motorLeft.stop()
+        motorRight.stop()
 
-    def move(self,speed=0.5,turn=0,t=0):
+    def move(motor,speed=0.25,turn=0,t=0):
         speed *=100
         turn *=70
         leftSpeed = speed-turn
         rightSpeed = speed+turn
 
-        if leftSpeed>100: leftSpeed =100
-        elif leftSpeed<-100: leftSpeed = -100
-        if rightSpeed>100: rightSpeed =100
-        elif rightSpeed<-100: rightSpeed = -100
-        #print(leftSpeed,rightSpeed)
-        self.pwmA.ChangeDutyCycle(abs(leftSpeed))
-        self.pwmB.ChangeDutyCycle(abs(rightSpeed))
-        if leftSpeed>0:GPIO.output(self.In1A,GPIO.HIGH);GPIO.output(self.In2A,GPIO.LOW)
-        else:GPIO.output(self.In1A,GPIO.LOW);GPIO.output(self.In2A,GPIO.HIGH)
+        #Normalization
+        if leftSpeed>1: leftSpeed = 1
+        elif leftSpeed<-1: leftSpeed = -1
+        if rightSpeed>1: rightSpeed = 1
+        elif rightSpeed<-1: rightSpeed = -1
+        print('robot speed', leftSpeed,rightSpeed)
+        
+        #Define steering and direction
+        if leftSpeed>0 : 
+            motorLeft.forward(leftSpeed)
+        else:
+            GPIO.output(self.In1A,GPIO.LOW);GPIO.output(self.In2A,GPIO.HIGH)
         if rightSpeed>0:GPIO.output(self.In1B,GPIO.HIGH);GPIO.output(self.In2B,GPIO.LOW)
         else:GPIO.output(self.In1B,GPIO.LOW);GPIO.output(self.In2B,GPIO.HIGH)
         sleep(t)

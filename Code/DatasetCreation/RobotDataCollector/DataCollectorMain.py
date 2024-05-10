@@ -1,12 +1,12 @@
-# 8import WebcamModule as wM
+# import WebcamModule as wM
 # import DataCollectionModule as dcM
 import KeyboardModule as kbM
-# import MotorModule as mM
+import MotorModule as robot
 import cv2
 from time import sleep
 
 maxThrottle = 0.258
-# motor = mM.Motor()
+motors = robot.Motor()
 
 recStatus = 0
 while True:
@@ -31,5 +31,5 @@ while True:
         # dcM.saveLog()
         recStatus = 0
 
-    # motor.move(throttle,-steering)
+    motors.move(throttle,-steering)
     cv2.waitKey(9)
