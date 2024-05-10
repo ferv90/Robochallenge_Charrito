@@ -21,7 +21,7 @@ motorLeft = Motor(forward=4, backward=14)
 motorRight = Motor(forward=17, backward=18)
 
 
-def move(motor,speed=0.25,turn=0,t=0):
+def move(speed=0.25,turn=0,t=0):
     speed *=100
     turn *=70
     leftSpeed = speed-turn
@@ -50,7 +50,7 @@ def move(motor,speed=0.25,turn=0,t=0):
         motorRight.forward(leftSpeed)
         sleep(t)
 
-def stop(self,t=0):
+def stop(t=0):
     motorLeft.stop()
     motorRight.stop()
     sleep(t)
@@ -66,5 +66,4 @@ def main():
     stop(2)
 
 if __name__ == '__main__':
-    # motor= Motor(2,3,4,17,22,27)
     main()
