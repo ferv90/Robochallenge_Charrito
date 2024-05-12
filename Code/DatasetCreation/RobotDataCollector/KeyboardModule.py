@@ -4,8 +4,8 @@
 # LEFT['a']                 RIGHT['d']
 #              DOWN['s']
 #
-# (+) = INCREASE SPEED  (1) = START RECORDING
-# (-) = DECREASE SPEED  (3) = STOP RECORDING
+# (1) = START RECORDING
+# (3) = STOP RECORDING
 ###############################################
 
 import keyboard as kb

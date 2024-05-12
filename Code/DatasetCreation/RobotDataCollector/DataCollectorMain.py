@@ -1,21 +1,20 @@
 # import WebcamModule as wM
 # import DataCollectionModule as dcM
-import KeyboardModule as kbM
+import KeyboardGameModule as kbM
 import MotorModule as robot
 import cv2
 from time import sleep
 
 maxThrottle = 0.258
-motors = robot.Motor()
-
+motors = robot.Motors(12,16,19,13,5,6,17)
+kbM.init()
 recStatus = 0
 while True:
     keyVal = kbM.keyEvent()
-    print("input:", keyVal)
+    # print("input:", keyVal)
     recording   = keyVal['recordctl']
-    steering    = keyVal['steering']
-    throttle    = keyVal['speed']*maxThrottle
-
+    steering    = keyVal['steering'] / 10
+    throttle    = keyVal['speed'] / 10  #*maxThrottle
     if recording == 1 and recStatus == 0:
          print('Recording Started ...')
          recStatus +=1
@@ -31,5 +30,5 @@ while True:
         # dcM.saveLog()
         recStatus = 0
 
-    motors.move(throttle,-steering)
+    motors.move(throttle, steering, 0.1)
     cv2.waitKey(9)
