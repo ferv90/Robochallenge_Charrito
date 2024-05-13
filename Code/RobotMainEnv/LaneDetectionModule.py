@@ -56,6 +56,7 @@ def getLaneCurve(img, display) :
        imgLaneColor = np.zeros_like(img)
        imgLaneColor[:] = 0, 255, 0
        imgLaneColor = cv2.bitwise_and(imgInvWarp, imgLaneColor)
+       imgResult = utils.warpImg(imgResult, points, width, height, invert=False)
        imgResult = cv2.addWeighted(imgResult, 1, imgLaneColor, 1, 0)
        midY = 450
        cv2.putText(imgResult, str(curve), (width//2-80, 85), cv2.FONT_HERSHEY_COMPLEX, 2, (255, 0, 255), 3)
@@ -95,11 +96,8 @@ if __name__ == '__main__' :
     print('OpenCV version: ', cv2.__version__)
     # pathfile = pathlib.Path(__file__).parent.resolve()
     # print(pathfile)
-    # RPi 5 Env:
-    # cap = cv2.imread('/home/quique/Robochallenge_Charrito/Code/RobotMainEnv/devOps_diagram.jpeg', cv2.IMREAD_GRAYSCALE)
-    # Windows Env:
     # img2 = cv2.imread('C:/Users/10753308/Robochallenge_Charrito/Code/RobotMainEnv/devOps_diagram.jpeg')
-    cap = cv2.VideoCapture('C:/Users/10753308/Robochallenge_Charrito/Code/RobotMainEnv/Vid1.mp4') #Windows requires complete filepath
+    cap = cv2.VideoCapture('C:/Users/10739871/Robochallenge/Robochallenge_Charrito/Code/RobotMainEnv/Vid1.mp4') #Windows requires complete filepath
     initialTrackBarValues = [0, 360, 165, 44]   # 0, 360, 110, 90 [wT, hT, wB, hB]
     utils.initializeTrackbars(initialTrackBarValues)
     frameCounter = 0
