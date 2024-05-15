@@ -2,7 +2,9 @@
 # -Display can be turned On/Off
 # -Image size can be defined
 #!/usr/bin/python3
+from picamera2.encoders import H264Encoder
 from picamera2 import Picamera2, Preview
+from datetime import datetime 
 import cv2
 
 class webCamera():
@@ -13,6 +15,14 @@ class webCamera():
         self.picam2.configure(self.preview_config)
         self.picam2.start()
 
+        self.video_config = self.picam2.create_video_configurations()
+        self.picam2.configure(video_config)
+        self.encoder = H264Encoder(bitrate=10000000)
+        self.now = datetime.now()
+        self.timestamp = str(datetime.timestamp(self.now)).replace('.', '')
+        self.output = "test_{self.timestamp}.h264"
+        self.picam2.start_recording(self.encoder, self.output)
+
     def getImg(self, display):
         frame  = self.picam2.capture_array("main")
         img = cv2.resize(frame, (640,320))       # 2:1 frame
@@ -22,6 +32,7 @@ class webCamera():
 
     def stopImg(self):
         self.picam2.stop()
+        self.picam2.stop_recording()
         cv2.destroyAllWindows()
 
 

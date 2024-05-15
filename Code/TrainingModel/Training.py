@@ -9,12 +9,12 @@ from utilstm import *
 #### STEP 1 - INITIALIZE DATA
 if sys.platform == "win32":
     path = os.path.join(os.getcwd()+"\\Code\\DatasetCreation", "DataCollected")
-print(path)
+# print(path)
 dataExist, data = importDataInfo(path)
 if dataExist == False:
     print("Can't find data exist")
     sys.exit()
-else :    
+else :   
     print(data.head())
 
 #### STEP 2 - VISUALIZE AND BALANCE DATA

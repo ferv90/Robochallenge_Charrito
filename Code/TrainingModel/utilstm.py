@@ -19,30 +19,29 @@ import random
 
 #### STEP 1 - INITIALIZE DATA
 def getName(filePath):
-    myImagePathL = filePath.split('/')[-2:]
-    myImagePath = os.path.join(myImagePathL[0],myImagePathL[1])
+    myImagePath = os.path.basename(filePath)
+    print(myImagePath)
     return myImagePath
 
 def importDataInfo(path):
     noOfFolders = len(os.listdir(path))//2
     dataStatus = False
-    data = 0
+    # data = []
+    print("Total folders:", noOfFolders)
     if noOfFolders == 0:
-        print("Pair folders:", noOfFolders)
         return dataStatus, data
     else :
         columns = ['Center','Steering']
         data = pd.DataFrame()
-        for x in range(17,22):
-            dataNew = pd.read_csv(os.path.join(path, f'log_{x}.csv'), names = columns)
-            print(f'{x}:{dataNew.shape[0]} ',end='')
-            #### REMOVE FILE PATH AND GET ONLY FILE NAME
-            #print(getName(data['center'][0]))
-            dataNew['Center']=dataNew['Center'].apply(getName)
-            data =data.append(dataNew,True )
+        for x in range(0,noOfFolders):
+            csvNameFile = os.path.join(path, f'log_{x}.csv')
+            dataNew = pd.read_csv(csvNameFile, names = columns)
+            dataNew['Center'] = dataNew['Center'].apply(getName)
+            data = pd.concat([data, dataNew], ignore_index=True)
+        # print(dataNew)
         print(' ')
-        print('Total Images Imported',data.shape[0])
-        dataStatus - True
+        print('Total Images Imported', data.shape[0])
+        dataStatus = True
         return dataStatus, data
 
 #### STEP 2 - VISUALIZE AND BALANCE DATA
