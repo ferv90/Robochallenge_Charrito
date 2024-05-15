@@ -15,7 +15,7 @@ class webCamera():
 
     def getImg(self, display):
         frame  = self.picam2.capture_array("main")
-        img = cv2.resize(frame, (640,480))
+        img = cv2.resize(frame, (640,320))       # 2:1 frame
         if display:
             cv2.imshow('cvIMG',img)
         return img
