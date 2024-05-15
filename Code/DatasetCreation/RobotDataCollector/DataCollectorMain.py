@@ -18,7 +18,7 @@ while True:
     steering    = keyVal['steering'] / 10
     throttle    = keyVal['speed'] / 10  #*maxThrottle
 
-    # START RECODING WITH SPACE BAR OVER PYGAME WINDOW
+    # START/STOP RECODING WITH SPACE BAR OVER KB_PYGAME WINDOW
     if recording == 1 and recStatus == 0:
         camera = wM.webCamera()
         print('Recording Started ...')
@@ -31,13 +31,13 @@ while True:
         print("Save data steering")
         dcM.saveData(img,steering)
 
-    # STOP RECORDING WITH '0' KEY OVER PYGAME WINDOW
-    if recording == 3 and recStatus == 1:
+    # STOP RECORDING WITH 'SPACE_BAR' OVER KB_PYGAME WINDOW
+    if recording == 2 and recStatus == 1:
         print("Stop data record and save log file...")
         dcM.saveLog()
         camera.stopImg()
         sleep(2)
         recStatus = 0
-        
+
     motors.move(throttle, steering, 0.1)
     cv2.waitKey(9)

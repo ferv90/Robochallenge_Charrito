@@ -49,11 +49,9 @@ def keyEvent(name=''):
 
             elif event.key == kb.K_SPACE:
                 print("key: SPACE")
-                buttons['recordctl'] = 1
-
-            elif event.key == kb.K_0:
-                print("key: 0")
-                buttons['recordctl'] = 3
+                buttons['recordctl'] += 1
+                if buttons['recordctl'] > 3:
+                    buttons['recordctl'] = 1
                 
             elif event.key == kb.K_ESCAPE: # Press 'esc' to exit
                 print("closing...")
