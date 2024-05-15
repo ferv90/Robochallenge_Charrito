@@ -18,8 +18,8 @@ count = 0
 imgList = []
 steeringList = []
 
-#GET CURRENT DIRECTORY PATH
-myDirectory = os.path.join(os.getcwd(), 'DataCollected')
+# GET CURRENT DIRECTORY PATH
+myDirectory = os.path.join(os.getcwd()+"/Code/DatasetCreation", 'DataCollected')
 print(myDirectory)
 
 # CREATE A NEW FOLDER BASED ON THE PREVIOUS FOLDER COUNT

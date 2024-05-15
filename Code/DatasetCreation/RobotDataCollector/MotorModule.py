@@ -12,9 +12,6 @@
 #
 ############################################################################################################
 #!/usr/bin/python3
-from operator import le
-from turtle import forward
-from cairo import Device
 from gpiozero import Motor, AngularServo, PWMLED
 from time import sleep
 
@@ -29,44 +26,43 @@ from time import sleep
 class Motors():
     def __init__(self,EnaA,In1A,In2A,EnaB,In1B,In2B,ServoPin):
         self.servo = AngularServo(ServoPin, initial_angle=0.0, min_angle=-90, max_angle=90, 
-                                          min_pulse_width=1/1000, max_pulse_width=2/1000, frame_width=20/1000, pin_factory=None) # 1 /1000 min width
+                                          min_pulse_width=0.5/1000, max_pulse_width=2.5/1000, frame_width=20/1000, pin_factory=None) # 1 /1000 min width
         self.Left  = Motor(forward=In1A, backward=In2A)
         self.Right = Motor(forward=In1B, backward=In2B)
         self.pwmA = PWMLED(EnaA);
         self.pwmB = PWMLED(EnaB);
         self.pwmA.value = 0;
         self.pwmB.value = 0;
+        self.lastAngle = 0;
 
     def move(self,speed,turn,t):
-        # speed *=100
-        # turn *=70
+        offsetMiddle = 10
+        turn = (turn*90)+offsetMiddle  # Offset to make the servo straight
         # leftSpeed = round(speed+(turn*0.5), 2)
         # rightSpeed = round(speed-(turn*0.5), 2)
-        steeringAngle = round(turn*90, 2)
+        if turn>90: turn = 90
+        steeringAngle = round(turn, 2)
 
-        # if leftSpeed>1: leftSpeed = 1
-        # elif leftSpeed<-1: leftSpeed = -1
-        # if rightSpeed>1: rightSpeed = 1
-        # elif rightSpeed<-1: rightSpeed = -1
-        # self.pwmA.value = abs(leftSpeed)
-        # self.pwmB.value = abs(rightSpeed)
-        self.servo.angle = steeringAngle
+        if(steeringAngle != self.lastAngle):
+            self.lastAngle = steeringAngle
+            self.servo.angle = steeringAngle
+            sleep(0.5)
         
         # leftSpeed = speed+(turn*0.5)
         # rightSpeed = speed-(turn*0.5)
-        print('speed,angle:', speed, steeringAngle)
+        print('speed,angle:', speed, steeringAngle-offsetMiddle)
         
         if speed>0:
             self.Left.forward()
             self.Right.forward()
             self.pwmA.value = abs(speed)
-            self.pwmB.value = abs(speed)
+            self.pwmB.value = abs(speed*0.9)
 
         elif speed<0:
             self.Left.backward()
             self.Right.backward()
             self.pwmA.value = abs(speed)
-            self.pwmB.value = abs(speed)
+            self.pwmB.value = abs(speed*0.9)
 
         else:
             self.stop()
@@ -92,43 +88,3 @@ def main():
 if __name__ == '__main__':
     motor= Motors(12,16,19,13,5,6,17)
     # main()
-
-
-# def main():
-#     move(0.5,0,2)
-#     stop(2)
-#     move(-0.5,0,2)
-#     stop(2)
-#     move(0,0.5,2)
-#     stop(2)
-#     move(0,-0.5,2)
-#     stop(2)
-
-# if __name__ == '__main__':
-#     main()
-
-# while True:
-    # servoSteering.angle = 0
-    # motorLeft.forward()
-    # motorRight.forward()
-    # speedLeft.value = 0.25
-    # speedRight.value = 0.25
-    # sleep(2)
-    # servoSteering.angle = 90
-    # speedLeft.value = 0.5
-    # speedRight.value = 0.5
-    # motorLeft.forward()
-    # motorRight.forward()
-    # sleep(2)
-    # servoSteering.angle = 0
-    # motorLeft.backward()
-    # motorRight.backward()
-    # speedLeft.value = 0.90
-    # speedRight.value = 0.90
-    # sleep(2)
-    # servoSteering.angle = -90
-    # speedRight.value = 0
-    # speedLeft.value = 0
-    # motorLeft.stop()
-    # motorRight.stop()
-    # sleep(2)
