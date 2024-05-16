@@ -13,7 +13,7 @@ from time import sleep
 
 from requests import get
 
-buttons = {'steering': 0, 'speed': 0, 'recordctl': 0}
+buttons = {'steering': 0, 'speed': 0, 'getimgctl': 0, 'recordctl': 0}
 
 def init():
     kb.init()
@@ -49,6 +49,12 @@ def keyEvent(name=''):
 
             elif event.key == kb.K_SPACE:
                 print("key: SPACE")
+                buttons['getimgctl'] += 1
+                if buttons['getimgctl'] > 3:
+                    buttons['getimgctl'] = 1
+
+            elif event.key == kb.K_0:
+                print("key: zero")
                 buttons['recordctl'] += 1
                 if buttons['recordctl'] > 3:
                     buttons['recordctl'] = 1
