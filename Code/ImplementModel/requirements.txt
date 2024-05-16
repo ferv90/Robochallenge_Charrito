@@ -1,0 +1,17 @@
+############################################################################################################
+#
+#  This code runs a neural network that uses dataset to train and test the model.
+#  The model generated running over Raspberry Pi 5 with a Tensor flow lite version
+#  and Open CV frameworks. The code is written in Python and uses the modules previously developed.
+#   
+############################################################################################################
+
+This code will need installed previously the following packages:
+atlas, tensorflow, h5py
+
+follow the instructions below to install the packages:
+
+sudo apt update
+sudo apt full-upgrade   
+sudo apt install libatlas-base-dev libhdf5-dev python3-h5py
+sudo pip3 install tensorflow --break-system-packages
